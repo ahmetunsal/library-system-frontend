@@ -5,6 +5,8 @@ import Homepage from './pages/home/Homepage'
 import Login from './pages/auth/Login'
 import Profile from './pages/profile/Profile'
 import Admin from './pages/admin/Admin'
+import Categories from './pages/categories/Categories'
+import Authors from './pages/authors/Authors'
 
 
 const router = createBrowserRouter([
@@ -25,8 +27,12 @@ const router = createBrowserRouter([
         element: <Admin />
       },
       {
-        path: "/login",
-        element: <Login />
+        path: "/categories",
+        element: <Categories />
+      },
+      {
+        path: "/authors",
+        element: <Authors />
       },
       {
         path: "/login",

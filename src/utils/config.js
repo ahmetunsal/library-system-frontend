@@ -13,6 +13,19 @@ export const userObj = {
 }
 
 
+export const bookObj = {
+    "title": "",
+    "isbn": "",
+    "publication_date": null,
+    "pages": null,
+    "language": "",
+    "description": "",
+    "cover_image": null,
+    "stock": null,
+    "status": null
+}
+
+
 export const isEmpty = (str) => !str.trim().length;
 
 export const roleConditions = {
@@ -40,11 +53,23 @@ export const navList = [
     },
     {
         title: "Hakkımızda",
-        url: "/about-us"
+        url: "/about-us",
     },
     {
         title: "İletişim",
-        url: "/contact"
+        url: "/contact",
+    },
+    {
+        title: "Kitaplar",
+        url: "/admin",
+    },
+    {
+        title: "Kategoriler",
+        url: "/categories",
+    },
+    {
+        title: "Yazarlar",
+        url: "/authors",
     },
 ]
 

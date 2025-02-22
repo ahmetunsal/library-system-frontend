@@ -1,6 +1,6 @@
 import { createContext, useEffect, useState } from "react";
 import { userObj } from "../utils/config";
-import { getUserInfo, postTokenVerify, postUserLogin  } from "../_api/api";
+import { deleteDestroyAuthor, deleteDestroyCategory, getAllAuthors, getAllBooks, getAllCategories, getUserInfo, postAddAuthor, postEditCategory, postTokenVerify, postUserLogin, putEditAuthor  } from "../_api/api";
 import Toaster from "../components/Toaster";
 
 
@@ -11,7 +11,8 @@ export const GlobalProvider = ({ children }) => {
     // User information
     const [user, setUser] = useState(userObj);
     const [isLoggedIn, setIsLoggedIn] = useState(false);
-
+    
+    // All category list ekle state! 
 
     // Alerts
     const [alertMessage, setAlertMessage] = useState(false);
@@ -35,6 +36,9 @@ export const GlobalProvider = ({ children }) => {
     const userLogin = async () => {
         postUserLogin(user.username, user.password);
         handleShowAlert("Başarıyla giriş yaptınız! Anasayfaya yönlendiriliyorsunuz...");
+        setTimeout(() => {
+            window.location = "/";
+        }, 3000);
     }
 
     const handleShowAlert = (text, type = `success`) => {
@@ -53,6 +57,17 @@ export const GlobalProvider = ({ children }) => {
         alertType,
         setIsShowAlert,
         handleShowAlert,
+
+        getAllBooks,
+        getAllCategories,
+
+        postEditCategory,
+        deleteDestroyCategory,
+
+        getAllAuthors,
+        postAddAuthor,
+        putEditAuthor,
+        deleteDestroyAuthor
     }
 
     return (

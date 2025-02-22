@@ -1,0 +1,21 @@
+.expanded-row {
+    padding: 10px;
+    background: #FAF4F0;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+  }
+  
+  .details-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); /* Dinamik sütun genişliği */
+    gap: 10px; /* Elemanlar arasında boşluk */
+    padding-top: 10px;
+  }
+  
+  .detail-item {
+    background: #fff;
+    padding: 8px;
+    border-radius: 4px;
+    border: 1px solid #ddd;
+    font-size: 14px;
+  }
