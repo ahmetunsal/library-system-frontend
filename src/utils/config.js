@@ -1,5 +1,8 @@
 import { FaUser } from "react-icons/fa"
 
+
+export const outOfArray = [1,2,3,4,5];
+
 export const userObj = {
     username: "",
     password: "",
@@ -12,18 +15,71 @@ export const userObj = {
     isActive: false
 }
 
+export const newUserObj = {
+    username: "",
+    first_name: "",
+    last_name: "",
+    password: "123HeLLO456WoRLD",
+    email: "",
+    phone_number: "",
+    tckn: "",
+    profile_picture: null,
+    role: null,
+    is_active: false,
+    is_staff: true,
+    address: "",
+}
+
 
 export const bookObj = {
     "title": "",
     "isbn": "",
+    "category": null,
+    "author": [],
+    "publisher": null,
     "publication_date": null,
     "pages": null,
     "language": "",
-    "description": "",
     "cover_image": null,
     "stock": null,
-    "status": null
+    "status": null,
+    "description": "",
 }
+
+
+export const USER_ROLES = [
+    ["admin", "Admin"],
+    ["staff", "Personel"],
+    ["member", "Üye"],
+]
+
+export const STATUS_CHOICES = [
+    ["available", "Mevcut"],
+    ["borrowed", "Ödünç Verildi"],
+    ["reserved", "Rezerve Edildi"],
+    ["lost", "Kayıp"],
+]
+
+
+export const STATUS = {
+    "available": {
+        text: "Mevcut",
+        color: "green"
+    },
+    "borrowed": {
+        text: "Ödünç Verildi",
+        color: "green",
+    },
+    "reserved": {
+        text: "Rezerve Edildi",
+        color: "green"
+    },
+    "lost": {
+        text: "Kayıp",
+        color: "green"
+    },
+} 
+
 
 
 export const isEmpty = (str) => !str.trim().length;
@@ -59,17 +115,25 @@ export const navList = [
         title: "İletişim",
         url: "/contact",
     },
+]
+
+
+export const adminNav = [
     {
         title: "Kitaplar",
-        url: "/admin",
+        url: "/admin/books",
     },
     {
         title: "Kategoriler",
-        url: "/categories",
+        url: "/admin/categories",
     },
     {
         title: "Yazarlar",
-        url: "/authors",
+        url: "/admin/authors",
+    },
+    {
+        title: "Yayınevleri",
+        url: "/admin/publishers",
     },
 ]
 

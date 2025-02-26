@@ -5,8 +5,12 @@ import Homepage from './pages/home/Homepage'
 import Login from './pages/auth/Login'
 import Profile from './pages/profile/Profile'
 import Admin from './pages/admin/Admin'
-import Categories from './pages/categories/Categories'
-import Authors from './pages/authors/Authors'
+import Detail from './pages/detail/Detail'
+import Users from './pages/admin/users/Users'
+import Authors from './pages/admin/authors/Authors'
+import Books from './pages/admin/books/Books'
+import Categories from './pages/admin/categories/Categories'
+import Publishers from './pages/admin/publishers/Publishers'
 
 
 const router = createBrowserRouter([
@@ -27,16 +31,38 @@ const router = createBrowserRouter([
         element: <Admin />
       },
       {
-        path: "/categories",
-        element: <Categories />
-      },
-      {
-        path: "/authors",
-        element: <Authors />
+        path: "/book-detail/:id",
+        element: <Detail />
       },
       {
         path: "/login",
         element: <Login />
+      },
+    ]
+  },
+  {
+    path: "/admin",
+    element: <Admin />,
+    children: [
+      {
+        path: "users/",
+        element: <Users />
+      },
+      {
+        path: "books/",
+        element: <Books />
+      },
+      {
+        path: "categories/",
+        element: <Categories />
+      },
+      {
+        path: "authors/",
+        element: <Authors />
+      },
+      {
+        path: "publishers/",
+        element: <Publishers />
       },
     ]
   }

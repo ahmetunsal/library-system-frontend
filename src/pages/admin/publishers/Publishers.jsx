@@ -1,31 +1,31 @@
 import React, { useContext, useEffect, useMemo, useState } from "react";
-import Tables from "../../components/tables/Tables";
-import { context } from "../../_context/GlobalContext";
-import AddCategoryModal from "../../components/modal/AddCategoryModal";
-import EditCategoryModal from "../../components/modal/edit/EditCategoryModal";
-import DeleteCategoryModal from "../../components/modal/delete/DeleteCategoryModal";
-import AddAuthorModal from "../../components/modal/add/AddAuthorModal";
-import EditAuthorModal from "../../components/modal/edit/EditAuthorModal";
-import DeleteAuthorModal from "../../components/modal/delete/DeleteAuthorModal";
+import Tables from "../../../components/tables/Tables";
+import { context } from "../../../_context/GlobalContext";
+import AddAuthorModal from "../../../components/modal/add/AddAuthorModal";
+import EditAuthorModal from "../../../components/modal/edit/EditAuthorModal";
+import DeleteAuthorModal from "../../../components/modal/delete/DeleteAuthorModal";
+import AddPublisherModal from "../../../components/modal/add/AddPublisherModal";
+import EditPublisherModal from "../../../components/modal/edit/EditPublisherModal";
+import DeletePublisherModal from "../../../components/modal/delete/DeletePublisherModal";
 
-const Authors = () => {
-  const { getAllAuthors } = useContext(context);
+const Publishers = () => {
+  const { getAllPublishers } = useContext(context);
 
   const [loading, setLoading] = useState(false);
-  const [authorObject, setAuthorObject] = useState([]);
-  const [authorModalOpen, setAuthorModalOpen] = useState(false);
-  const [editAuthorModalOpen, setEditAuthorModalOpen] = useState(false);
-  const [deleteAuthorModalOpen, setDeleteAuthorModalOpen] = useState(false);
-  const [authorList, setAuthorList] = useState([]);
+  const [publisherObject, setPublisherObject] = useState([]);
+  const [publisherModalOpen, setPublisherModalOpen] = useState(false);
+  const [editPublisherModalOpen, setEditPublisherModalOpen] = useState(false);
+  const [deletePublisherModalOpen, setDeletePublisherModalOpen] = useState(false);
+  const [publisherList, setPublisherList] = useState([]);
   const [deneme, setDeneme] = useState(false);
 
   useEffect(() => {
     const authorStatus = async () => {
         try {
-          const response = await getAllAuthors(); // API çağrısı
-        //   console.log("CATEGORIES", response);
+          const response = await getAllPublishers(); // API çağrısı
+          // console.log("**PUBLISHERS**", response);
           // console.log("Bayi Status:", response.data); // Gelen veriyi kontrol et
-          setAuthorList(response.data); // 🟢 Yalnızca `results` dizisini kaydet
+          setPublisherList(response.data); // 🟢 Yalnızca `results` dizisini kaydet
         } catch (error) {
           //console.error("Bayi Status Error:", error); // Hataları kontrol et
         } finally {
@@ -39,10 +39,10 @@ const Authors = () => {
   useEffect(() => {
     const authorStatus = async () => {
       try {
-        const response = await getAllAuthors(); // API çağrısı
+        const response = await getAllPublishers(); // API çağrısı
         // console.log("CATEGORIES", response);
         // console.log("Bayi Status:", response.data); // Gelen veriyi kontrol et
-        setAuthorList(response.data); // 🟢 Yalnızca `results` dizisini kaydet
+        setPublisherList(response.data); // 🟢 Yalnızca `results` dizisini kaydet
       } catch (error) {
         //console.error("Bayi Status Error:", error); // Hataları kontrol et
       } finally {
@@ -55,14 +55,14 @@ const Authors = () => {
 
   const handleEdit = (id) => {
     console.log("EDIT", id);
-    setAuthorObject(id);
-    setEditAuthorModalOpen(!editAuthorModalOpen)
+    setPublisherObject(id);
+    setEditPublisherModalOpen(!editPublisherModalOpen)
   }
 
   const handleDelete = (obj) => {
     console.log("DELETE", obj);
-    setAuthorObject(obj);
-    setDeleteAuthorModalOpen(true)
+    setPublisherObject(obj);
+    setDeletePublisherModalOpen(true)
   }
 
   const hiddenColumns = [
@@ -74,11 +74,11 @@ const Authors = () => {
   ]; //
 
   const columns = useMemo(() => {
-    if (!authorList || authorList.length === 0 || !authorList[0])
+    if (!publisherList || publisherList.length === 0 || !publisherList[0])
       return [];
 
     return [
-      ...Object.keys(authorList[0] || {})
+      ...Object.keys(publisherList[0] || {})
         .filter((key) => !hiddenColumns.includes(key))
         .map((key) => ({
           name: key.replace(/_/g, " ").toUpperCase(),
@@ -144,24 +144,24 @@ const Authors = () => {
         ),
       },
     ];
-  }, [authorList, hiddenColumns]);
+  }, [publisherList, hiddenColumns]);
 
   return (
     <div>
       <div className="flex justify-end">
         <button
-          onClick={() => setAuthorModalOpen(!authorModalOpen)}
+          onClick={() => setPublisherModalOpen(!publisherModalOpen)}
           className="bg-black text-white hover:cursor-pointer my-5 mx-5 py-3 px-2 rounded-2xl"
         >
-          Yazar Ekle
+          Yayınevi Ekle
         </button>
       </div>
-      <Tables columns={columns} data={authorList} loading={loading} />
-      <AddAuthorModal deneme={deneme} setDeneme={setDeneme} open={authorModalOpen} setOpen={setAuthorModalOpen} />
-      <EditAuthorModal deneme={deneme} setDeneme={setDeneme} authorObject={authorObject} open={editAuthorModalOpen} setOpen={setEditAuthorModalOpen} />
-      <DeleteAuthorModal deneme={deneme} setDeneme={setDeneme} authorObject={authorObject} open={deleteAuthorModalOpen} setOpen={setDeleteAuthorModalOpen} />
+      <Tables columns={columns} data={publisherList} loading={loading} />
+      <AddPublisherModal deneme={deneme} setDeneme={setDeneme} open={publisherModalOpen} setOpen={setPublisherModalOpen} />
+      <EditPublisherModal deneme={deneme} setDeneme={setDeneme} publisherObject={publisherObject} open={editPublisherModalOpen} setOpen={setEditPublisherModalOpen} />
+      <DeletePublisherModal deneme={deneme} setDeneme={setDeneme} publisherObject={publisherObject} open={deletePublisherModalOpen} setOpen={setDeletePublisherModalOpen} />
     </div>
   );
 };
 
-export default Authors;
+export default Publishers;

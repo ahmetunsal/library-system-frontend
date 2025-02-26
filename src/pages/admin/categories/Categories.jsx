@@ -1,9 +1,9 @@
 import React, { useContext, useEffect, useMemo, useState } from "react";
-import Tables from "../../components/tables/Tables";
-import { context } from "../../_context/GlobalContext";
-import AddCategoryModal from "../../components/modal/AddCategoryModal";
-import EditCategoryModal from "../../components/modal/edit/EditCategoryModal";
-import DeleteCategoryModal from "../../components/modal/delete/DeleteCategoryModal";
+import Tables from "../../../components/tables/Tables";
+import { context } from "../../../_context/GlobalContext";
+import AddCategoryModal from "../../../components/modal/AddCategoryModal";
+import EditCategoryModal from "../../../components/modal/edit/EditCategoryModal";
+import DeleteCategoryModal from "../../../components/modal/delete/DeleteCategoryModal";
 
 const Categories = () => {
   const { getAllCategories } = useContext(context);

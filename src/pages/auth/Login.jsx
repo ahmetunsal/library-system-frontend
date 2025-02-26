@@ -11,7 +11,7 @@ const Login = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     if(isEmpty(user.username) || isEmpty(user.password)) return handleShowAlert("Kullanıcı adı ve şifre gereklidir.", "danger")
-    userLogin()
+    await userLogin()
   };
 
   if(isLoggedIn) return <Navigate to={"/"} />
