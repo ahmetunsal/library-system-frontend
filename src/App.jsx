@@ -12,6 +12,7 @@ import Books from './pages/admin/books/Books'
 import Categories from './pages/admin/categories/Categories'
 import Publishers from './pages/admin/publishers/Publishers'
 import Loans from './pages/admin/loans/Loans'
+import UserDetail from './pages/detail/user/UserDetail'
 
 
 const router = createBrowserRouter([
@@ -30,6 +31,10 @@ const router = createBrowserRouter([
       {
         path: "book-detail/:id",
         element: <Detail />
+      },
+      {
+        path: "user-detail/:id",
+        element: <UserDetail />
       },
       {
         path: "login/",

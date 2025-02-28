@@ -12,6 +12,7 @@
   "dependencies": {
     "@headlessui/react": "^2.2.0",
     "@tailwindcss/vite": "^4.0.7",
+    "antd": "^5.24.2",
     "axios": "^1.7.9",
     "react": "^19.0.0",
     "react-data-table-component": "^7.6.2",

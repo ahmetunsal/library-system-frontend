@@ -86,6 +86,18 @@ export const STATUS = {
 } 
 
 
+export const REASON_CHOICES = [
+    ["late_return", "Gecikmiş Kitap İadesi"],
+    ["damage", "Kitap Hasarı"],
+    ["lost", "Kitap Kaybı"],
+]
+
+
+export const REASON_CHOICES_OBJ = {
+    "late_return": "Gecikmiş Kitap İadesi",
+    "damage": "Kitap Hasarı",
+    "lost": "Kitap Kaybı",
+}
 
 export const isEmpty = (str) => !str.trim().length;
 

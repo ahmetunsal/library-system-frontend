@@ -1,8 +1,9 @@
 import { createContext, useEffect, useState } from "react";
-import { bookObj, newUserObj, outOfArray, USER_ROLES, USER_ROLES_OBJ, userObj } from "../utils/config";
-import { deleteDestroyAuthor, deleteDestroyBook, deleteDestroyCategory, deleteDestroyPublisher, deleteDestroyUser, getAllAuthors, getAllBooks, getAllCategories, getAllLoans, getAllPublishers, getAllUsers, getBookComments, getOneBook, getSingleUser, getUserInfo, postAddAuthor, postAddBook, postAddPublisher, postAddToFavorites, postBookComment, postBookRevervation, postBookTrack, postEditCategory, postLoanBook, postRegisterUser, postTokenVerify, postUserLogin, putEditAuthor, putEditBook, putEditPublisher, putEditUser  } from "../_api/api";
+import { bookObj, newUserObj, outOfArray, REASON_CHOICES, REASON_CHOICES_OBJ, USER_ROLES, USER_ROLES_OBJ, userObj } from "../utils/config";
+import { deleteDestroyAuthor, deleteDestroyBook, deleteDestroyCategory, deleteDestroyPublisher, deleteDestroyUser, getAllAuthors, getAllBooks, getAllCategories, getAllLoans, getAllPublishers, getAllUsers, getBookComments, getOneBook, getSingleUser, getUserInfo, postAddAuthor, postAddBook, postAddPenalty, postAddPublisher, postAddToFavorites, postBookComment, postBookRevervation, postBookTrack, postEditCategory, postLoanBook, postRegisterUser, postTokenVerify, postUserLogin, putEditAuthor, putEditBook, putEditPublisher, putEditUser, putLoanBookReturned  } from "../_api/api";
 import Toaster from "../components/Toaster";
 import { generatePassword } from "../utils/functions";
+import '../assets/css/UserDetail.css'
 
 
 export const context = createContext();
@@ -132,13 +133,18 @@ export const GlobalProvider = ({ children }) => {
         deleteDestroyUser,
 
         postLoanBook,
+        putLoanBookReturned,
         postAddToFavorites,
         postBookTrack,
         postBookRevervation,
         getAllLoans,
 
+        postAddPenalty,
+
         USER_ROLES,
+        REASON_CHOICES,
         USER_ROLES_OBJ,
+        REASON_CHOICES_OBJ,
         outOfArray,
 
         generatePassword,

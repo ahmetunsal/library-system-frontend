@@ -78,6 +78,7 @@ const Books = () => {
     "loans", 
     "favorite_books", 
     "reservations",
+    "penalties",
     "profile_picture"
   ]; //
 
@@ -176,9 +177,7 @@ const Books = () => {
               Üye Ekle
           </button>
       </div>
-      <div className="w-full flex px-3 rounded-2xl overflow-hidden">
-        <Tables columns={columns} data={bookList} loading={loading} />
-      </div>  
+      <Tables columns={columns} data={bookList} loading={loading} />
       <AddUserModal deneme={deneme} setDeneme={setDeneme} open={open} setOpen={setOpen} />
       <EditUserModal deneme={deneme} setDeneme={setDeneme} userObject={userObject} open={bookEditOpen} setOpen={setBookEditOpen} />
       <DeleteUserModal deneme={deneme} setDeneme={setDeneme} userObject={userObject} open={bookDeleteOpen} setOpen={setBookDeleteOpen} />

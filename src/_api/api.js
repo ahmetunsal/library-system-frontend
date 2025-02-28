@@ -31,6 +31,7 @@ const LOAN_URL = API_URL + `loans/`
 const FAVORITES_URL = API_URL + `favorites/`
 const BOOK_TRACKINGS_URL = API_URL + `booktrackings/`
 const RESERVATIONS_URL = API_URL + `reservations/`
+const PENALTIES_URL = API_URL + `penalties/`
 
 
 /**
@@ -115,7 +116,7 @@ export const getUserInfo = async () => {
 };
 
 export const getSingleUser = async (id) => {
-    const res = fetcher(`${USER_URL}${id}`);
+    const res = fetcher(`${USER_URL}${id}/`);
     console.log("SINGLE_USER", res);
 
     return res;
@@ -322,8 +323,16 @@ export const postBookComment = async (userId, bookId, text, rating) => {
 
 
 export const postLoanBook = async (userId, bookId) => {
-    const res = await poster(LOAN_URL, { user: userId, book: bookId });
+    const res = await poster(LOAN_URL, { user: userId, book: bookId, is_returned: false });
     console.log("LOAN_BOOK", res);
+
+    return res;
+}
+
+
+export const putLoanBookReturned = async (loanId, userId, bookId) => {
+    const res = await putter(`${LOAN_URL}${loanId}/`, { user: userId, book: bookId, is_returned: true });
+    console.log("LOAN_BOOK_RETURNED", res);
 
     return res;
 }
@@ -346,6 +355,14 @@ export const postBookTrack = async (userId, bookId) => {
 export const postBookRevervation = async (userId, bookId) => {
     const res = await poster(RESERVATIONS_URL, { user: userId, book: bookId,  is_active: true });
     console.log("BOOK_RESERVATIONS", res);
+
+    return res;
+}
+
+
+export const postAddPenalty = async (userId, amount, reason, isPaid) => {
+    const res = await poster(PENALTIES_URL, { user: userId, amount, reason, is_paid: isPaid });
+    console.log("PENALTY", res);
 
     return res;
 }

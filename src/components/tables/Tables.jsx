@@ -1,7 +1,7 @@
 import React, { useMemo, useState } from "react";
 import DataTable from "react-data-table-component";
 import "./tables.css";
-import { STATUS } from "../../utils/config";
+import { REASON_CHOICES_OBJ, STATUS } from "../../utils/config";
 
 const Tables = ({ columns, data, loading }) => {
   const [searchQuery, setSearchQuery] = useState("");
@@ -103,6 +103,7 @@ const Tables = ({ columns, data, loading }) => {
             if(key === "loans") value = value.map(r => `${r.book_title}`).join(", ");
             if(key === "reservations") value = value.map(r => `${r.book_title}`).join(", ");
             if(key === "favorite_books") value = value.map(f => `${f.title}`).join(", ");
+            if(key === "penalties") value = value.map(f => `${REASON_CHOICES_OBJ[f.reason]}`).join(", ");
 
             return (
               <div key={key} className="detail-item">
