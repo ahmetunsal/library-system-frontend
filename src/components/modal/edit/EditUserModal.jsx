@@ -4,22 +4,9 @@ import { useContext, useEffect, useState } from 'react'
 import { Dialog, DialogBackdrop, DialogPanel, DialogTitle } from '@headlessui/react'
 import { context } from '../../../_context/GlobalContext';
 
-export default function AddUserModal({ open, setOpen, deneme, setDeneme }) {
-    const { newUserObj, postRegisterUser, USER_ROLES, generatePassword } = useContext(context);
+export default function EditUserModal({ open, setOpen, userObject, deneme, setDeneme }) {
+    const { newUserObj, putEditUser, USER_ROLES, generatePassword } = useContext(context);
     const [newUser, setNewUser] = useState(newUserObj);
-
-    useEffect(() => {
-      const setNewPass = async () => {
-        const pass = await generatePassword();
-        setNewUser((prev) => ({ ...prev, password: pass }));
-      }
-
-      setNewPass();
-    }, []);
-
-    useEffect(() => {
-      console.log("NEW_USER", newUser);
-    }, [newUser]);
     
     const handleTextInputChange = (e, param) => {
         setNewUser((prev) => ({ ...prev, [param]: e.target.value }));
@@ -29,8 +16,15 @@ export default function AddUserModal({ open, setOpen, deneme, setDeneme }) {
         setNewUser((prev) => ({ ...prev, [param]: e.target.files[0] ? e.target.files[0] : null }));
     };
 
-    const handleAddUser = () => {
-        postRegisterUser(newUser);
+    useEffect(() => {
+        const pass = generatePassword()
+        const { profile_picture, ...data } = userObject ? userObject : {};
+        setNewUser({ ...data, password: pass });
+    }, [open]);
+
+
+    const handleEditUser = () => {
+        putEditUser(newUser, userObject.id);
         setOpen(false);
         setDeneme(!deneme);
     }
@@ -52,34 +46,36 @@ export default function AddUserModal({ open, setOpen, deneme, setDeneme }) {
               <div className="sm:flex sm:items-start">
                 <div className="w-full mt-3 text-center sm:mt-0 sm:ml-4 sm:text-left">
                   <DialogTitle as="h3" className="text-2xl font-semibold text-gray-900">
-                    Yeni üye kaydı
+                    Üye Düzenle
                   </DialogTitle>
                   <div className="grid grid-cols-2 gap-4 mt-5">
                     {
                         Object.keys(newUserObj).map(u => {
                             let element;
                             if(["is_staff"].includes(u)) return;
-                            element = <input type="text" className='border' onChange={(e) => handleTextInputChange(e, u)} />
-                            if(u == "password") element = <input type='text' disabled className='border text-black' defaultValue={newUserObj[u].length != 0 ? newUserObj[u] : "Otomatik Ayarlanıyor."} />
-                            if(u == "address") element = <textarea className='border' onChange={(e) => handleTextInputChange(e, u)} />
-                            if(u == "tckn") element = <input type="number" className='border' onChange={(e) => handleTextInputChange(e, u)} />
-                            if(u == "email") element = <input type="email" className='border' onChange={(e) => handleTextInputChange(e, u)} />
+                            element = <input defaultValue={userObject && userObject[u]} type="text" className='border' onChange={(e) => handleTextInputChange(e, u)} />
+                            if(u == "address") element = <textarea defaultValue={userObject && userObject[u]} className='border' onChange={(e) => handleTextInputChange(e, u)} />
+                            if(u == "tckn") element = <input defaultValue={userObject && userObject[u]} type="number" className='border' onChange={(e) => handleTextInputChange(e, u)} />
+                            if(u == "password") element = <input defaultValue={newUser && newUser[u]} type="password" className='border' onChange={(e) => handleTextInputChange(e, u)} />
+                            if(u == "email") element = <input defaultValue={userObject && userObject[u]} type="email" className='border' onChange={(e) => handleTextInputChange(e, u)} />
                             if(u == "profile_picture") element = <input type="file" className='border' onChange={(e) => handleFileInputChange(e, u)} />
-                            if(u == "is_active") return <div className='flex items-center gap-2'><input type="checkbox" className='p-1' onChange={(e) => handleTextInputChange(e, u)} /><label htmlFor="">{u.toUpperCase()}</label></div>
+                            if(u == "is_active") return <div className='flex items-center gap-2'><input checked={userObject && userObject[u]} type="checkbox" className='p-1' onChange={(e) => handleTextInputChange(e, u)} /><label htmlFor="">{u.toUpperCase()}</label></div>
                             if(u == "role") element = (
                                 <select onChange={(e) => handleTextInputChange(e, u)} className='border'>
                                     <option value="0" disabled selected>Bir rol seçiniz..</option>
                                     {
                                         USER_ROLES.map(([value, label]) => {
+                                            const isSelected = userObject && userObject[u] == value;
                                             return (
-                                                <option value={value}>{label}</option>
+                                                
+                                                <option selected={isSelected} value={value}>{label}</option>
                                             )
                                         })
                                     }
                                 </select>
                             )
                             return (
-                                <div className="flex flex-col">
+                                <div className="flex flex-col justify-center">
                                     <label htmlFor="">{u.toUpperCase()}</label>
                                     {element}
                                 </div>
@@ -93,10 +89,10 @@ export default function AddUserModal({ open, setOpen, deneme, setDeneme }) {
             <div className="bg-gray-50 px-4 py-3 sm:flex sm:flex-row-reverse sm:px-6">
               <button
                 type="button"
-                onClick={handleAddUser}
+                onClick={handleEditUser}
                 className="inline-flex w-full justify-center rounded-md bg-green-600 px-3 py-2 text-sm font-semibold text-white shadow-xs hover:bg-green-500 sm:ml-3 sm:w-auto"
               >
-                Üye Ekle
+                Üye Düzenle
               </button>
               <button
                 type="button"

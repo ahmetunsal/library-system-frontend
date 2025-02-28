@@ -8,9 +8,10 @@ import EditBookModal from "../../../components/modal/edit/EditBookModal";
 import { Link } from "react-router";
 import AddUserModal from "../../../components/modal/add/AddUserModal";
 import DeleteUserModal from "../../../components/modal/delete/DeleteUserModal";
+import EditUserModal from "../../../components/modal/edit/EditUserModal";
 
 const Books = () => {
-  const { user, getAllUsers } = useContext(context);
+  const { user, getAllUsers, USER_ROLES_OBJ } = useContext(context);
   const [loading, setLoading] = useState(true);
   const [bookList, setBookList] = useState([]);
   const [open, setOpen] = useState(false);
@@ -25,7 +26,7 @@ const Books = () => {
     const bookStatus = async () => {
       try {
         const response = await getAllUsers(); // API çağrısı
-        // console.log("SA", response);
+        console.log("SA_USER", response);
         // console.log("Bayi Status:", response.data); // Gelen veriyi kontrol et
         setBookList(response.data); // 🟢 Yalnızca `results` dizisini kaydet
       } catch (error) {
@@ -43,7 +44,7 @@ const Books = () => {
     const bookStatus = async () => {
       try {
         const response = await getAllUsers(); // API çağrısı
-        // console.log("SA", response);
+        console.log("SA_USERS", response);
         // console.log("Bayi Status:", response.data); // Gelen veriyi kontrol et
         setBookList(response.data); // 🟢 Yalnızca `results` dizisini kaydet
       } catch (error) {
@@ -57,6 +58,7 @@ const Books = () => {
   }, [deneme]);
 
   const handleEdit = async (obj) => {
+    console.log("USER_OBJECT",obj)
     setBookObject(obj);
     setBookEditOpen(!bookEditOpen)
   }
@@ -67,11 +69,16 @@ const Books = () => {
   }
 
   const hiddenColumns = [
+    "id",
     "username",
     "created_at",
     "updated_at",
     "address",
-    "is_staff"
+    "is_staff",
+    "loans", 
+    "favorite_books", 
+    "reservations",
+    "profile_picture"
   ]; //
 
   const columns = useMemo(() => {
@@ -82,24 +89,28 @@ const Books = () => {
         .filter((key) => !hiddenColumns.includes(key))
         .map((key) => ({
           name: key.replace(/_/g, " ").toUpperCase(),
+          sortable: true,
           selector: (row) => {
             const value = row[key];
-
             if (!value) return "Veri Yok";
 
-            // Eğer yayınevi objeyse
             if (key === "is_active") return value ? "Aktif" : "Pasif";
 
-            // Eğer kapak görseliyse
+            if(key == "role") return USER_ROLES_OBJ[value];
+
             if (key === "profile_picture")
               return <img src={value} alt="Kapak" width="50" />;
 
+            // if(key === "loans") return value.map(r => `${r.book_title}`).join(", ");
+            // if(key === "reservations") return value.map(r => `${r.book_title}`).join(", ");
+            // if(key === "favorite_books") return value.map(f => `${f.title}`).join(", ");
+
             return value;
           },
-          sortable: true,
         })),
       {
         name: "İşlemler",
+        width: "250px",
         cell: (row) => (
           <div style={{ display: "flex", gap: "10px" }}>
             {/* Düzenle Butonu */}
@@ -157,14 +168,19 @@ const Books = () => {
 
   return (
     <>
-        <div className="flex justify-end">
-            <button onClick={() => setOpen(!open)} className="bg-black text-white hover:cursor-pointer my-5 mx-5 py-3 px-2 rounded-2xl">
-                Üye Ekle
-            </button>
-        </div>
-      <Tables columns={columns} data={bookList} loading={loading} />
+      <div className="flex items-center justify-between">
+          <div className="flex px-5">
+            <h1 className="text-4xl">Üyeler</h1>
+          </div>
+          <button onClick={() => setOpen(!open)} className="bg-black text-white hover:cursor-pointer my-5 mx-5 py-3 px-2 rounded-2xl">
+              Üye Ekle
+          </button>
+      </div>
+      <div className="w-full flex px-3 rounded-2xl overflow-hidden">
+        <Tables columns={columns} data={bookList} loading={loading} />
+      </div>  
       <AddUserModal deneme={deneme} setDeneme={setDeneme} open={open} setOpen={setOpen} />
-      <EditBookModal deneme={deneme} setDeneme={setDeneme} userObject={userObject} open={bookEditOpen} setOpen={setBookEditOpen} />
+      <EditUserModal deneme={deneme} setDeneme={setDeneme} userObject={userObject} open={bookEditOpen} setOpen={setBookEditOpen} />
       <DeleteUserModal deneme={deneme} setDeneme={setDeneme} userObject={userObject} open={bookDeleteOpen} setOpen={setBookDeleteOpen} />
     </>
   );

@@ -1,5 +1,5 @@
 import React, { useContext } from "react";
-import { loginBtn, navList } from "../../utils/config";
+import { loginBtn, nav } from "../../utils/config";
 import { Link } from "react-router";
 import { GiHamburgerMenu } from "react-icons/gi";
 import { context } from "../../_context/GlobalContext";
@@ -19,7 +19,7 @@ const Navigation = () => {
       </div>
       <div className="hidden md:flex">
         <ul className="flex gap-5">
-          {navList.map((nav, i) => {
+          {nav.map((nav, i) => {
             return (
               <li key={i} className="">
                 <Link to={nav.url}>{nav.title}</Link>

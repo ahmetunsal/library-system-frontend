@@ -1,7 +1,8 @@
 import { createContext, useEffect, useState } from "react";
-import { bookObj, newUserObj, outOfArray, USER_ROLES, userObj } from "../utils/config";
-import { deleteDestroyAuthor, deleteDestroyBook, deleteDestroyCategory, deleteDestroyPublisher, deleteDestroyUser, getAllAuthors, getAllBooks, getAllCategories, getAllPublishers, getAllUsers, getBookComments, getOneBook, getUserInfo, postAddAuthor, postAddBook, postAddPublisher, postBookComment, postEditCategory, postRegisterUser, postTokenVerify, postUserLogin, putEditAuthor, putEditBook, putEditPublisher  } from "../_api/api";
+import { bookObj, newUserObj, outOfArray, USER_ROLES, USER_ROLES_OBJ, userObj } from "../utils/config";
+import { deleteDestroyAuthor, deleteDestroyBook, deleteDestroyCategory, deleteDestroyPublisher, deleteDestroyUser, getAllAuthors, getAllBooks, getAllCategories, getAllLoans, getAllPublishers, getAllUsers, getBookComments, getOneBook, getSingleUser, getUserInfo, postAddAuthor, postAddBook, postAddPublisher, postAddToFavorites, postBookComment, postBookRevervation, postBookTrack, postEditCategory, postLoanBook, postRegisterUser, postTokenVerify, postUserLogin, putEditAuthor, putEditBook, putEditPublisher, putEditUser  } from "../_api/api";
 import Toaster from "../components/Toaster";
+import { generatePassword } from "../utils/functions";
 
 
 export const context = createContext();
@@ -17,6 +18,7 @@ export const GlobalProvider = ({ children }) => {
     const [allCategories, setAllCategories] = useState([]);
     const [allAuthors, setAllAuthors] = useState([]);
     const [allPublishers, setAllPublishers] = useState([]);
+    const [allUsers, setAllUsers] = useState([]);
 
     const [book, setBook] = useState(bookObj);
 
@@ -31,10 +33,12 @@ export const GlobalProvider = ({ children }) => {
             const categories = await getAllCategories();
             const authors = await getAllAuthors();
             const publishers = await getAllPublishers();
+            const users = await getAllUsers();
 
             setAllCategories(categories.data)
             setAllAuthors(authors.data)
             setAllPublishers(publishers.data)
+            setAllUsers(users.data)
         }
 
 
@@ -63,9 +67,11 @@ export const GlobalProvider = ({ children }) => {
     }
 
     const userLogin = async () => {
-        const isLoginSuccess = await postUserLogin(user.username, user.password);
-        // console.log('USER_LOGIN', isLoginSuccess);
-        if(!isLoginSuccess) return handleShowAlert("Başarısız giriş. Lütfen bilgilerinizi doğru girdiğinizden emin olunuz.");
+        const loginResult = await postUserLogin(user.username, user.password);
+        if(!loginResult.success) {
+            handleShowAlert(loginResult.error, "danger");
+            return;
+        }
         handleShowAlert("Başarıyla giriş yaptınız! Anasayfaya yönlendiriliyorsunuz...");
         setTimeout(() => {
             window.location = "/";
@@ -75,13 +81,14 @@ export const GlobalProvider = ({ children }) => {
     
 
     const value = {
+        userObj,
         user, setUser,
         userLogin,
-
 
         book,
         setBook,
 
+        allUsers, setAllUsers,
         allCategories,
         allAuthors,
         allPublishers,
@@ -119,11 +126,22 @@ export const GlobalProvider = ({ children }) => {
 
         newUserObj,
         getAllUsers,
+        getSingleUser,
         postRegisterUser,
+        putEditUser,
         deleteDestroyUser,
 
+        postLoanBook,
+        postAddToFavorites,
+        postBookTrack,
+        postBookRevervation,
+        getAllLoans,
+
         USER_ROLES,
-        outOfArray
+        USER_ROLES_OBJ,
+        outOfArray,
+
+        generatePassword,
     }
 
     return (

@@ -1,6 +1,7 @@
 import React, { useMemo, useState } from "react";
 import DataTable from "react-data-table-component";
 import "./tables.css";
+import { STATUS } from "../../utils/config";
 
 const Tables = ({ columns, data, loading }) => {
   const [searchQuery, setSearchQuery] = useState("");
@@ -64,22 +65,18 @@ const Tables = ({ columns, data, loading }) => {
     },
   };
 
-  // console.log("COLUMNS", columns);
-  // console.log("DATA", data);
-
-  // 🟢 useMemo ile performans optimizasyonu
     const filteredRecords = useMemo(() => {
       if (!searchQuery) return data;
 
       return data.filter((item) =>
           (item.title && item.title.toLowerCase().includes(searchQuery.toLowerCase())) ||
-          (item.language && item.language.toLowerCase().includes(searchQuery.toLowerCase())) || // 🔥 Alternatif alan eklendi
-          (item.first_name && item.first_name.toLowerCase().includes(searchQuery.toLowerCase())) || // 🔥 Alternatif alan eklendi
-          (item.last_name && item.last_name.toLowerCase().includes(searchQuery.toLowerCase())) // 🔥 Alternatif alan eklendi
+          (item.language && item.language.toLowerCase().includes(searchQuery.toLowerCase())) ||
+          (item.first_name && item.first_name.toLowerCase().includes(searchQuery.toLowerCase())) ||
+          (item.last_name && item.last_name.toLowerCase().includes(searchQuery.toLowerCase())) ||
+          (item.isbn && item.isbn.toLowerCase().includes(searchQuery.toLowerCase()))
       );
     }, [searchQuery, data]);
 
-  // ✅ Detay Satır Bileşeni
   const ExpandedRow = ({ data }) => {
     return (
       <div className="expanded-row">
@@ -87,28 +84,25 @@ const Tables = ({ columns, data, loading }) => {
         <div className="details-grid">
           {Object.entries(data).map(([key, value]) => {
             if (!value) value = "Veri Yok";
-
-            // Kategori nesneyse adını al
-            if (key === "category" && typeof value === "object") {
-              value = value.name;
-            }
-
-            // Yazarlar array ise ad ve soyadları birleştir
-            if (key === "author" && Array.isArray(value)) {
-              value = value
-                .map((a) => `${a.first_name} ${a.last_name}`)
-                .join(", ");
-            }
-
-            // Yayınevi nesneyse adını al
-            if (key === "publisher" && typeof value === "object") {
-              value = value.name;
-            }
+            const exclude = ["id","created_at","updated_at","category","author","publisher"];
+            if(exclude.includes(key)) return;
 
             // Kapak görseli için resim etiketi ekle
             if (key === "cover_image") {
               value = <img src={value} alt="Kapak" width="100" />;
             }
+
+            if (key === "profile_picture") {
+              value = <img src={value} alt="Kapak" width="100" />;
+            }
+            
+            if (key === "status") {
+              value = STATUS[value].text;
+            }
+
+            if(key === "loans") value = value.map(r => `${r.book_title}`).join(", ");
+            if(key === "reservations") value = value.map(r => `${r.book_title}`).join(", ");
+            if(key === "favorite_books") value = value.map(f => `${f.title}`).join(", ");
 
             return (
               <div key={key} className="detail-item">
@@ -126,10 +120,10 @@ const Tables = ({ columns, data, loading }) => {
       <div>
         <input
           type="text"
-          placeholder="Search by title"
+          placeholder="Arayın.."
           onChange={(e) => setSearchQuery(e.target.value)}
           style={{
-            width: "300px",
+            minWidth: "300px",
             padding: "8px",
             marginBottom: "10px",
             marginLeft: "45px",

@@ -11,6 +11,7 @@ import Authors from './pages/admin/authors/Authors'
 import Books from './pages/admin/books/Books'
 import Categories from './pages/admin/categories/Categories'
 import Publishers from './pages/admin/publishers/Publishers'
+import Loans from './pages/admin/loans/Loans'
 
 
 const router = createBrowserRouter([
@@ -23,34 +24,30 @@ const router = createBrowserRouter([
         element: <Homepage />
       },
       {
-        path: "/profile",
+        path: "profile/",
         element: <Profile />
       },
       {
-        path: "/admin",
-        element: <Admin />
-      },
-      {
-        path: "/book-detail/:id",
+        path: "book-detail/:id",
         element: <Detail />
       },
       {
-        path: "/login",
+        path: "login/",
         element: <Login />
       },
     ]
   },
   {
-    path: "/admin",
-    element: <Admin />,
+    path: "/library",
+    element: <MainLayout />,
     children: [
-      {
-        path: "users/",
-        element: <Users />
-      },
       {
         path: "books/",
         element: <Books />
+      },
+      {
+        path: "users/",
+        element: <Users />
       },
       {
         path: "categories/",
@@ -63,6 +60,10 @@ const router = createBrowserRouter([
       {
         path: "publishers/",
         element: <Publishers />
+      },
+      {
+        path: "loans/",
+        element: <Loans />
       },
     ]
   }

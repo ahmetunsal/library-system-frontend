@@ -53,6 +53,7 @@ const Authors = () => {
     authorStatus();
   }, []);
 
+
   const handleEdit = (id) => {
     console.log("EDIT", id);
     setAuthorObject(id);
@@ -60,7 +61,6 @@ const Authors = () => {
   }
 
   const handleDelete = (obj) => {
-    console.log("DELETE", obj);
     setAuthorObject(obj);
     setDeleteAuthorModalOpen(true)
   }
@@ -148,7 +148,10 @@ const Authors = () => {
 
   return (
     <div>
-      <div className="flex justify-end">
+      <div className="flex items-center justify-between">
+        <div className="flex px-5">
+          <h1 className="text-4xl">Yazarlar</h1>
+        </div>
         <button
           onClick={() => setAuthorModalOpen(!authorModalOpen)}
           className="bg-black text-white hover:cursor-pointer my-5 mx-5 py-3 px-2 rounded-2xl"

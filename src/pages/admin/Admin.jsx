@@ -1,5 +1,4 @@
 import React, { useContext, useEffect, useMemo, useState } from "react";
-import { adminNav, roleConditions } from "../../utils/config";
 import { context } from "../../_context/GlobalContext";
 import Tables from "../../components/tables/Tables";
 import AddBookModal from "../../components/modal/AddBookModal";
@@ -7,6 +6,7 @@ import DeleteBookModal from "../../components/modal/delete/DeleteBookModal";
 import EditBookModal from "../../components/modal/edit/EditBookModal";
 import { Link, Outlet } from "react-router";
 import NotFound from "../notFound/NotFound";
+import { nav } from "../../utils/config";
 
 const Admin = () => {
 
@@ -21,7 +21,7 @@ const Admin = () => {
         <span className="py-4 text-2xl text-center">KütüPNCR Admin</span>
         <div className="w-full flex">
           <ul className="w-full flex flex-col">
-            {adminNav.map(n => {
+            {nav.map(n => {
               return (
                 <li className="w-full flex px-2">
                   <Link to={n.url} className="w-full px-3 py-2 duration-100 rounded-md hover:bg-zinc-900">

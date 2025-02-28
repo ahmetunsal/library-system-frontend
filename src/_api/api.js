@@ -11,6 +11,7 @@ const deleter = async (url, data) => { return await axios.delete(url, data).catc
 const authFetcher = async (url, token) => { return await axios.get(url, { headers: { Authorization: `PNCRYazilim ${token}` } }).catch(err => new Error("PNCR_API_AUTH_FETCHER", err));}
 const authPoster = async (url, token, { data }) => { return await axios.post(url, data, { headers: { Authorization: `PNCRYazilim ${token}` } }).catch(err => new Error("PNCR_API_AUTH_POSTER", err));}
 const formDataPoster = async (url, data) => { return await axios.post(url, data, { headers: { 'Content-Type':'multipart/form-data' } }).catch(err => console.error(err));}
+const formDataPutter = async (url, data) => { return await axios.put(url, data, { headers: { 'Content-Type':'multipart/form-data' } }).catch(err => console.error(err));}
 
 const BASE_URL = `http://localhost:8000/`
 const API_URL = BASE_URL + `api/`
@@ -26,6 +27,10 @@ const CATEGORIES_URL = API_URL + `categories/`
 const AUTHORS_URL = API_URL + `authors/`
 const PUBLISHERS_URL = API_URL + `publishers/`
 const COMMENTS_URL = API_URL + `comments/`
+const LOAN_URL = API_URL + `loans/`
+const FAVORITES_URL = API_URL + `favorites/`
+const BOOK_TRACKINGS_URL = API_URL + `booktrackings/`
+const RESERVATIONS_URL = API_URL + `reservations/`
 
 
 /**
@@ -67,13 +72,34 @@ export const postTokenRefresh = async () => {
 
 
 export const postUserLogin = async (username, password) => {
-    const res = await poster(TOKEN_URL, { username, password })
-    console.log("POST_USER_LOGIN", res.status);
+    try {
+        const res = await poster(TOKEN_URL, { username, password });
+        console.log("POST_USER_LOGIN", res.status);
 
-    localStorage.setItem("token", JSON.stringify(res.data.access));
-    localStorage.setItem("refresh", JSON.stringify(res.data.refresh));
-    return res.status == 200 ? true : false;
+        if (res.status === 200) {
+            localStorage.setItem("token", JSON.stringify(res.data.access));
+            localStorage.setItem("refresh", JSON.stringify(res.data.refresh));
+            return { success: true };
+        }
+        return { success: false, error: "Giriş başarısız" };
+    } catch (error) {
+        console.error("Login error:", error);
+        return { 
+            success: false, 
+            error: "Kullanıcı adı veya şifre hatalı" 
+        };
+    }
 }
+
+
+// export const postUserLogin = async (username, password) => {
+//     const res = await poster(TOKEN_URL, { username, password })
+//     console.log("POST_USER_LOGIN", res.status);
+
+//     localStorage.setItem("token", JSON.stringify(res.data.access));
+//     localStorage.setItem("refresh", JSON.stringify(res.data.refresh));
+//     return res.status == 200 ? true : false;
+// }
 
 /**
  * 
@@ -88,6 +114,12 @@ export const getUserInfo = async () => {
     return data;
 };
 
+export const getSingleUser = async (id) => {
+    const res = fetcher(`${USER_URL}${id}`);
+    console.log("SINGLE_USER", res);
+
+    return res;
+}
 
 export const getAllUsers = async () => {
     const res = fetcher(USER_URL);
@@ -100,6 +132,13 @@ export const postRegisterUser = async (data) => {
     const res = await formDataPoster(USER_URL, data)
     console.log("ADD_USER", res);
     
+    return res;
+}
+
+export const putEditUser = async (data, id) => {
+    const res = await formDataPutter(`${USER_URL}${id}/`, { ...data, id });
+    console.log("EDIT_USER",res)
+
     return res;
 }
 
@@ -121,6 +160,13 @@ export const getOneBook = async (id) => {
 export const getAllBooks = async () => {
     const res = await fetcher(BOOKS_URL)
     // console.log(res);
+
+    return res
+}
+
+export const getAllLoans = async () => {
+    const res = await fetcher(LOAN_URL);
+    console.log("ALL_LOANS", res);
 
     return res
 }
@@ -272,3 +318,35 @@ export const postBookComment = async (userId, bookId, text, rating) => {
 
     return res;
 }
+
+
+
+export const postLoanBook = async (userId, bookId) => {
+    const res = await poster(LOAN_URL, { user: userId, book: bookId });
+    console.log("LOAN_BOOK", res);
+
+    return res;
+}
+
+export const postAddToFavorites = async (userId, bookId) => {
+    const res = await poster(FAVORITES_URL, { user: userId, book: bookId });
+    console.log("FAVORITE_BOOK", res);
+
+    return res;
+}
+
+
+export const postBookTrack = async (userId, bookId) => {
+    const res = await poster(BOOK_TRACKINGS_URL, { user: userId, book: bookId,  notification_status: true });
+    console.log("BOOK_TRACKINGS", res);
+
+    return res;
+}
+
+export const postBookRevervation = async (userId, bookId) => {
+    const res = await poster(RESERVATIONS_URL, { user: userId, book: bookId,  is_active: true });
+    console.log("BOOK_RESERVATIONS", res);
+
+    return res;
+}
+

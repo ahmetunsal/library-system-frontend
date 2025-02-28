@@ -144,7 +144,10 @@ const Categories = () => {
 
   return (
     <div>
-      <div className="flex justify-end">
+      <div className="flex items-center justify-between">
+        <div className="flex px-5">
+          <h1 className="text-4xl">Kategoriler</h1>
+        </div>
         <button
           onClick={() => setCategoryModalOpen(!categoryModalOpen)}
           className="bg-black text-white hover:cursor-pointer my-5 mx-5 py-3 px-2 rounded-2xl"

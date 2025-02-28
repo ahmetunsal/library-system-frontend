@@ -19,7 +19,7 @@ export const newUserObj = {
     username: "",
     first_name: "",
     last_name: "",
-    password: "123HeLLO456WoRLD",
+    password: "",
     email: "",
     phone_number: "",
     tckn: "",
@@ -60,6 +60,11 @@ export const STATUS_CHOICES = [
     ["lost", "Kayıp"],
 ]
 
+export const USER_ROLES_OBJ = {
+    "admin": "Admin",
+    "staff": "Personel",
+    "member": "Üye",
+}
 
 export const STATUS = {
     "available": {
@@ -118,22 +123,30 @@ export const navList = [
 ]
 
 
-export const adminNav = [
+export const nav = [
+    {
+        title: "Üyeler",
+        url: "/library/users",
+    },
     {
         title: "Kitaplar",
-        url: "/admin/books",
+        url: "/library/books",
     },
     {
         title: "Kategoriler",
-        url: "/admin/categories",
+        url: "/library/categories",
     },
     {
         title: "Yazarlar",
-        url: "/admin/authors",
+        url: "/library/authors",
     },
     {
         title: "Yayınevleri",
-        url: "/admin/publishers",
+        url: "/library/publishers",
+    },
+    {
+        title: "Ödünç Verilenler",
+        url: "/library/loans",
     },
 ]
 
