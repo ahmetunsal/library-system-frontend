@@ -15,7 +15,8 @@ const UserDetail = () => {
   useEffect(() => {
     const getUser = async () => {
       const user = await getSingleUser(id);
-      setUser(user.data);
+      console.log("DETAILT",user.data[0]);
+      setUser(user.data[0]);
     }
 
     getUser();

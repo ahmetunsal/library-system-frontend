@@ -44,7 +44,7 @@ const router = createBrowserRouter([
   },
   {
     path: "/library",
-    element: <MainLayout />,
+    element: <Admin />,
     children: [
       {
         path: "books/",

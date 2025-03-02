@@ -9,7 +9,7 @@ import EditPublisherModal from "../../../components/modal/edit/EditPublisherModa
 import DeletePublisherModal from "../../../components/modal/delete/DeletePublisherModal";
 
 const Publishers = () => {
-  const { getAllPublishers } = useContext(context);
+  const { user, getAllPublishers } = useContext(context);
 
   const [loading, setLoading] = useState(false);
   const [publisherObject, setPublisherObject] = useState([]);
@@ -107,7 +107,7 @@ const Publishers = () => {
           },
           sortable: true,
         })),
-      {
+        user.role == "admin" && {
         name: "İşlemler",
         cell: (row) => (
           <div style={{ display: "flex", gap: "10px" }}>
@@ -142,7 +142,7 @@ const Publishers = () => {
             </button>
           </div>
         ),
-      },
+        },
     ];
   }, [publisherList, hiddenColumns]);
 

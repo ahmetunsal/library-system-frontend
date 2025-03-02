@@ -139,26 +139,32 @@ export const nav = [
     {
         title: "Üyeler",
         url: "/library/users",
+        isForAdmin: true,
     },
     {
         title: "Kitaplar",
         url: "/library/books",
+        isForAdmin: false
     },
     {
         title: "Kategoriler",
         url: "/library/categories",
+        isForAdmin: true,
     },
     {
         title: "Yazarlar",
         url: "/library/authors",
+        isForAdmin: true,
     },
     {
         title: "Yayınevleri",
         url: "/library/publishers",
+        isForAdmin: true,
     },
     {
         title: "Ödünç Verilenler",
         url: "/library/loans",
+        isForAdmin: true,
     },
 ]
 

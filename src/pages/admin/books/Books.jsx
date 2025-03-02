@@ -115,6 +115,7 @@ const Books = () => {
             const value = row[key];
 
             if (!value) return "Veri Yok";
+            if(value == "") return "Atanmamış.";
 
             if (key === "publisher") return value.name;
 
@@ -127,9 +128,9 @@ const Books = () => {
           },
           sortable: true,
         })),
-      {
+        {
         name: "ISLEMLER",
-        width: user.role == "admin" ? "850px" : "350px",
+        width: "350px",
         cell: (row) => {
           const isAdmin = user.role == "admin";
           let element = (
@@ -235,16 +236,14 @@ const Books = () => {
               >
                 Sil
               </button>
-              {element}
             </div>
           )
           return element;
         }
-      },
+        },
     ];
   }, [bookList, hiddenColumns]);
 
-  //   if (!roleConditions[user.role]) return <>Not found.</>;
   if (loading) return <>Loading...</>;
 
   return (

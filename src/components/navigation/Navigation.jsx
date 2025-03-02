@@ -1,11 +1,12 @@
 import React, { useContext } from "react";
-import { loginBtn, nav } from "../../utils/config";
+import { isEmpty, loginBtn, nav } from "../../utils/config";
 import { Link } from "react-router";
 import { GiHamburgerMenu } from "react-icons/gi";
 import { context } from "../../_context/GlobalContext";
 
 const Navigation = () => {
-  const { isLoggedIn } = useContext(context);
+  const { user, isLoggedIn } = useContext(context);
+
 
   return (
     <div className="sticky top-0 z-20 flex justify-between md:justify-between items-center px-5 py-2 bg-black text-white">
@@ -20,6 +21,7 @@ const Navigation = () => {
       <div className="hidden md:flex">
         <ul className="flex gap-5">
           {nav.map((nav, i) => {
+            if((nav.isForAdmin && isEmpty(user.role)) || (nav.isForAdmin  && user.role !== "admin")) return;   
             return (
               <li key={i} className="">
                 <Link to={nav.url}>{nav.title}</Link>

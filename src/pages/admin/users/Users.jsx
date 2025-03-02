@@ -109,7 +109,7 @@ const Books = () => {
             return value;
           },
         })),
-      {
+        user.role == "admin" && {
         name: "İşlemler",
         width: "250px",
         cell: (row) => (
@@ -146,7 +146,7 @@ const Books = () => {
             
             
             <Link
-              to={`/book-detail/${row.id}`}
+              to={`/user-detail/${row.id}`}
               style={{
                 backgroundColor: "#dc3545",
                 color: "white",
@@ -169,13 +169,15 @@ const Books = () => {
 
   return (
     <>
-      <div className="flex items-center justify-between">
-          <div className="flex px-5">
+      <div className="flex items-center justify-between py-5 px-5">
+          <div className="flex">
             <h1 className="text-4xl">Üyeler</h1>
           </div>
-          <button onClick={() => setOpen(!open)} className="bg-black text-white hover:cursor-pointer my-5 mx-5 py-3 px-2 rounded-2xl">
-              Üye Ekle
-          </button>
+          {user.role == "admin" && (
+            <button onClick={() => setOpen(!open)} className="bg-black text-white hover:cursor-pointer py-3 px-2 rounded-2xl">
+                Üye Ekle
+            </button>
+          )}
       </div>
       <Tables columns={columns} data={bookList} loading={loading} />
       <AddUserModal deneme={deneme} setDeneme={setDeneme} open={open} setOpen={setOpen} />

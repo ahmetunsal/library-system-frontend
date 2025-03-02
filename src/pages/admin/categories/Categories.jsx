@@ -6,7 +6,7 @@ import EditCategoryModal from "../../../components/modal/edit/EditCategoryModal"
 import DeleteCategoryModal from "../../../components/modal/delete/DeleteCategoryModal";
 
 const Categories = () => {
-  const { getAllCategories } = useContext(context);
+  const { user, getAllCategories } = useContext(context);
 
   const [loading, setLoading] = useState(false);
   const [categoryObject, setCategoryObject] = useState([]);
@@ -103,8 +103,9 @@ const Categories = () => {
           },
           sortable: true,
         })),
-      {
+        user.role == "admin" && {
         name: "İşlemler",
+        
         cell: (row) => (
           <div style={{ display: "flex", gap: "10px" }}>
             {/* Düzenle Butonu */}

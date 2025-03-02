@@ -32,6 +32,7 @@ const FAVORITES_URL = API_URL + `favorites/`
 const BOOK_TRACKINGS_URL = API_URL + `booktrackings/`
 const RESERVATIONS_URL = API_URL + `reservations/`
 const PENALTIES_URL = API_URL + `penalties/`
+const EMAIL_URL = API_URL + `emailsend/`
 
 
 /**
@@ -75,7 +76,6 @@ export const postTokenRefresh = async () => {
 export const postUserLogin = async (username, password) => {
     try {
         const res = await poster(TOKEN_URL, { username, password });
-        console.log("POST_USER_LOGIN", res.status);
 
         if (res.status === 200) {
             localStorage.setItem("token", JSON.stringify(res.data.access));
@@ -93,15 +93,6 @@ export const postUserLogin = async (username, password) => {
 }
 
 
-// export const postUserLogin = async (username, password) => {
-//     const res = await poster(TOKEN_URL, { username, password })
-//     console.log("POST_USER_LOGIN", res.status);
-
-//     localStorage.setItem("token", JSON.stringify(res.data.access));
-//     localStorage.setItem("refresh", JSON.stringify(res.data.refresh));
-//     return res.status == 200 ? true : false;
-// }
-
 /**
  * 
  * @returns {userObj}
@@ -116,14 +107,14 @@ export const getUserInfo = async () => {
 };
 
 export const getSingleUser = async (id) => {
-    const res = fetcher(`${USER_URL}${id}/`);
+    const res = fetcher(`${USER_URL}${id}/get_user_info/`);
     console.log("SINGLE_USER", res);
 
     return res;
 }
 
 export const getAllUsers = async () => {
-    const res = fetcher(USER_URL);
+    const res = fetcher(`${USER_URL}get_all_users/`);
     console.log("ALL_USER", res);
 
     return res;
@@ -367,3 +358,15 @@ export const postAddPenalty = async (userId, amount, reason, isPaid) => {
     return res;
 }
 
+
+export const postSendMail = async (subject, message, userEmail) => {
+    const res = await poster(EMAIL_URL, { 
+        "subject": subject,
+        "message": message,
+        "recipient_list": [userEmail]
+    })
+    
+    console.log(res);
+
+    return res;
+}

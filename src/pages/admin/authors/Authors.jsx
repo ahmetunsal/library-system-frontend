@@ -9,7 +9,7 @@ import EditAuthorModal from "../../../components/modal/edit/EditAuthorModal";
 import DeleteAuthorModal from "../../../components/modal/delete/DeleteAuthorModal";
 
 const Authors = () => {
-  const { getAllAuthors } = useContext(context);
+  const { user, getAllAuthors } = useContext(context);
 
   const [loading, setLoading] = useState(false);
   const [authorObject, setAuthorObject] = useState([]);
@@ -107,7 +107,7 @@ const Authors = () => {
           },
           sortable: true,
         })),
-      {
+        user.role == "admin" && {
         name: "İşlemler",
         cell: (row) => (
           <div style={{ display: "flex", gap: "10px" }}>

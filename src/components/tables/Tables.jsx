@@ -70,6 +70,10 @@ const Tables = ({ columns, data, loading }) => {
 
       return data.filter((item) =>
           (item.title && item.title.toLowerCase().includes(searchQuery.toLowerCase())) ||
+          (item.name && item.name.toLowerCase().includes(searchQuery.toLowerCase())) ||
+          (item.user_info['username'] && item.user_info['username'].toLowerCase().includes(searchQuery.toLowerCase())) ||
+          (item.book_info['title'] && item.book_info['title'].toLowerCase().includes(searchQuery.toLowerCase())) ||
+          (item.address && item.address.toLowerCase().includes(searchQuery.toLowerCase())) ||
           (item.language && item.language.toLowerCase().includes(searchQuery.toLowerCase())) ||
           (item.first_name && item.first_name.toLowerCase().includes(searchQuery.toLowerCase())) ||
           (item.last_name && item.last_name.toLowerCase().includes(searchQuery.toLowerCase())) ||
@@ -83,7 +87,10 @@ const Tables = ({ columns, data, loading }) => {
         <h4>Detaylar</h4>
         <div className="details-grid">
           {Object.entries(data).map(([key, value]) => {
+            if (key === "is_returned") return value ? "Aktif" : "Dışarıda";
+
             if (!value) value = "Veri Yok";
+            if(value == "") value = "Atanmamış.";
             const exclude = ["id","created_at","updated_at","category","author","publisher"];
             if(exclude.includes(key)) return;
 
@@ -100,6 +107,8 @@ const Tables = ({ columns, data, loading }) => {
               value = STATUS[value].text;
             }
 
+            if(key == "user_info") return `${value["tckn"] ? value["tckn"] : value["username"]} - ${value["first_name"]} ${value["last_name"]} - ${value["loans"][value['loans'].length-1].due_date} `;
+            if(key == "book_info") return `${value["title"]} `;
             if(key === "loans") value = value.map(r => `${r.book_title}`).join(", ");
             if(key === "reservations") value = value.map(r => `${r.book_title}`).join(", ");
             if(key === "favorite_books") value = value.map(f => `${f.title}`).join(", ");

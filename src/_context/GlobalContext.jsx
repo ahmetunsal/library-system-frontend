@@ -1,6 +1,6 @@
 import { createContext, useEffect, useState } from "react";
 import { bookObj, newUserObj, outOfArray, REASON_CHOICES, REASON_CHOICES_OBJ, USER_ROLES, USER_ROLES_OBJ, userObj } from "../utils/config";
-import { deleteDestroyAuthor, deleteDestroyBook, deleteDestroyCategory, deleteDestroyPublisher, deleteDestroyUser, getAllAuthors, getAllBooks, getAllCategories, getAllLoans, getAllPublishers, getAllUsers, getBookComments, getOneBook, getSingleUser, getUserInfo, postAddAuthor, postAddBook, postAddPenalty, postAddPublisher, postAddToFavorites, postBookComment, postBookRevervation, postBookTrack, postEditCategory, postLoanBook, postRegisterUser, postTokenVerify, postUserLogin, putEditAuthor, putEditBook, putEditPublisher, putEditUser, putLoanBookReturned  } from "../_api/api";
+import { deleteDestroyAuthor, deleteDestroyBook, deleteDestroyCategory, deleteDestroyPublisher, deleteDestroyUser, getAllAuthors, getAllBooks, getAllCategories, getAllLoans, getAllPublishers, getAllUsers, getBookComments, getOneBook, getSingleUser, getUserInfo, postAddAuthor, postAddBook, postAddPenalty, postAddPublisher, postAddToFavorites, postBookComment, postBookRevervation, postBookTrack, postEditCategory, postLoanBook, postRegisterUser, postSendMail, postTokenVerify, postUserLogin, putEditAuthor, putEditBook, putEditPublisher, putEditUser, putLoanBookReturned  } from "../_api/api";
 import Toaster from "../components/Toaster";
 import { generatePassword } from "../utils/functions";
 import '../assets/css/UserDetail.css'
@@ -148,6 +148,8 @@ export const GlobalProvider = ({ children }) => {
         outOfArray,
 
         generatePassword,
+
+        postSendMail,
     }
 
     return (

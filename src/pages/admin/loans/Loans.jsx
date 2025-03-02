@@ -5,7 +5,7 @@ import BookReturnedModal from "../../../components/modal/loan/BookReturnedModal"
 import BookPenaltyModal from "../../../components/modal/loan/BookPenaltyModal";
 
 const Loans = () => {
-  const { user, getAllLoans, } = useContext(context);
+  const { user, getAllLoans, handleShowAlert, postSendMail } = useContext(context);
   const [loading, setLoading] = useState(true);
   const [loansList, setBookList] = useState([]);
   const [open, setOpen] = useState(false);
@@ -53,15 +53,22 @@ const Loans = () => {
   }, [deneme]);
 
   const handleBookReturned = async (obj) => {
-    console.log("OBJ_LOAN_BOOK_RETURN", obj);
     setBookObject(obj);
     setBookDeleteOpen(!bookDeleteOpen)
   }
 
   const handlePenalty = async (obj) => {
-    console.log("OBJ_PENALTY", obj);
     setBookObject(obj);
     setBookEditOpen(!bookEditOpen);
+  }
+
+  const handleNotify = async (obj) => {
+    setBookObject(obj);
+    postSendMail(
+      "KütüPNCR Kitap Ödünç Alma Sistemi - Uyarı", 
+      `Ödünç almış olduğunuz ${obj.book_info.title} adlı kitabı geri getirmediğinizi fark ettik. Lütfen en yakın zamanda kitabı geri teslim ediniz. VER LAN YAVSAK!!!\n\nSaygılarımızla,\n KütüPNCR Kütüphanecilik ve Yazılım Sanayii Ticaret A.Ş.`,
+      obj.user_info.email);
+    handleShowAlert(`${obj.book_info.title} kitabı için ${obj.user_info.username} üyesine hatırlatma maili gönderildi.`);
   }
 
   const hiddenColumns = [
@@ -95,7 +102,7 @@ const Loans = () => {
           },
           sortable: true,
         })),
-      {
+        user.role == "admin" && {
         name: "ISLEMLER",
         cell: (row) => {
           const due_date = new Date(row.user_info.loans[row.user_info.loans.length-1].due_date).getTime() || "";
@@ -113,10 +120,12 @@ const Loans = () => {
                   cursor: "pointer",
                   borderRadius: "5px",
                 }}
-                onClick={() => handleEdit(row)}
+                onClick={() => handleNotify(row)}
               >
                 Mail At
               </button>
+
+
               <button
               style={{
                 backgroundColor: "#dc3545",
